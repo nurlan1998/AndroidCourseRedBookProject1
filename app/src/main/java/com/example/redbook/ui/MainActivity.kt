@@ -1,4 +1,4 @@
-package com.example.redbook
+package com.example.redbook.ui
 
 import android.os.Bundle
 import android.view.Menu
@@ -10,6 +10,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.example.redbook.R
+import com.example.redbook.ui.animal.AnimalFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,7 +30,10 @@ class MainActivity : AppCompatActivity() {
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
-        val toggle = ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
+        val toggle = ActionBarDrawerToggle(this,drawerLayout,toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener {
@@ -39,6 +44,7 @@ class MainActivity : AppCompatActivity() {
                 else -> {return@setNavigationItemSelectedListener false}
             }
         }
+        supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer,AnimalFragment()).commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

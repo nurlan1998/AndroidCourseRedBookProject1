@@ -33,8 +33,8 @@ data class Animal(
     @ColumnInfo(name = "quantity")
     val quantity: String,
 
-    @ColumnInfo(name = "lifeStyle")
-    val lifeStyle: String,
+    @ColumnInfo(name = "lifestyle")
+    val lifestyle: String,
 
     @ColumnInfo(name = "limitingFactors")
     val limitingFactors: String,
