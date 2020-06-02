@@ -13,4 +13,9 @@
 
     <string name="home_second">Home Second</string>
     <string name="search">Search</string>
+    <string name="menu_invertebrates">Omirtqasizlar</string>
+    <string name="menu_fishes">Baliqlar</string>
+    <string name="menu_animals">Sutemzushler</string>
+    <string name="menu_birds">Quslar</string>
+    <string name="menu_reptiles">Jerbawirlawshilar</string>
 </resources>

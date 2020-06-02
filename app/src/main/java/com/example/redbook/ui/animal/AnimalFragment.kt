@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.example.redbook.R
 import com.example.redbook.data.RedBookDatabase
 import com.example.redbook.data.dao.AnimalDao
+import com.example.redbook.ui.MainActivity.Companion.TYPE_ID
 import kotlinx.android.synthetic.main.fragment_animal.*
 
 class AnimalFragment : Fragment(R.layout.fragment_animal) {
@@ -16,10 +17,11 @@ class AnimalFragment : Fragment(R.layout.fragment_animal) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView.adapter = adapter
+        val type = arguments?.getInt(TYPE_ID) ?: 1
         dao = RedBookDatabase.getInstance(requireContext()).data()
-        setData()
+        setData(type)
     }
-    fun setData(){
-        adapter.models = dao.getAnimals()
+    fun setData(type: Int){
+        adapter.models = dao.getAnimals(type)
     }
 }
