@@ -10,17 +10,24 @@ import com.example.redbook.data.model.Animal
 @Database(entities = [Animal::class],version = 1)
 abstract class RedBookDatabase : RoomDatabase() {
     companion object{
-        private lateinit var INSTANCE: RedBookDatabase
 
-        fun getInstance(context: Context) : RedBookDatabase =
-            Room.databaseBuilder(
-                context,
-                RedBookDatabase::class.java,
-            "book-database.db"
-            )
+        @Volatile
+        private var INSTANCE: RedBookDatabase? = null
+
+        fun getInstance(context: Context): RedBookDatabase{
+            return INSTANCE ?: synchronized(this){
+                INSTANCE
+                    ?: buildDatabase(context).also { INSTANCE = it }
+            }
+        }
+
+        private fun buildDatabase(context: Context): RedBookDatabase{
+            return Room.databaseBuilder(context, RedBookDatabase::class.java,
+                "book-database.db")
                 .createFromAsset("book-database.db")
                 .allowMainThreadQueries()
                 .build()
+        }
     }
     abstract fun data() : AnimalDao
 }
