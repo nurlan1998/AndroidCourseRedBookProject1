@@ -9,16 +9,17 @@ import com.example.redbook.R
 import com.example.redbook.data.model.Animal
 import kotlinx.android.synthetic.main.animal_item.view.*
 
-class AnimalListAdapter : RecyclerView.Adapter<AnimalListAdapter.AnimalListViewHolder>() {
+class AnimalListAdapter(private val listener: AnimalItemClickListener) :
+    RecyclerView.Adapter<AnimalListAdapter.AnimalListViewHolder>() {
 
-    var models:List<Animal> = listOf()
-    set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
+    var models: List<Animal> = listOf()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimalListViewHolder {
-        var view = LayoutInflater.from(parent.context).inflate(R.layout.animal_item,parent,false)
+        var view = LayoutInflater.from(parent.context).inflate(R.layout.animal_item, parent, false)
         return AnimalListViewHolder(view)
     }
 
@@ -28,8 +29,8 @@ class AnimalListAdapter : RecyclerView.Adapter<AnimalListAdapter.AnimalListViewH
         holder.populate(models[position])
     }
 
-    inner class AnimalListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        fun populate(animal: Animal){
+    inner class AnimalListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun populate(animal: Animal) {
             itemView.tvUzbName.text = animal.nameUzb
             itemView.tvRusName.text = animal.nameRus
             itemView.tvEngName.text = animal.nameEng
@@ -37,8 +38,18 @@ class AnimalListAdapter : RecyclerView.Adapter<AnimalListAdapter.AnimalListViewH
 //            itemView.ivAnimal.setImageResource(itemView.context.resources.getIdentifier(imageResName,"drawable",itemView.context.packageName))
             Glide
                 .with(itemView)
-                .load(itemView.context.resources.getIdentifier(imageResName,"drawable",itemView.context.packageName))
+                .load(
+                    itemView.context.resources.getIdentifier(
+                        imageResName,
+                        "drawable",
+                        itemView.context.packageName
+                    )
+                )
                 .into(itemView.ivAnimal)
+
+            itemView.setOnClickListener {
+                listener.onAnimalItemClick(animal.id)
+            }
         }
     }
 }

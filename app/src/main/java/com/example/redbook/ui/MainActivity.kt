@@ -18,7 +18,7 @@ import com.example.redbook.ui.animal.AnimalFragment
 
 class MainActivity : AppCompatActivity() {
 
-    companion object{
+    companion object {
         const val TYPE_ID = "type_id"
         const val INVERTEBRATES = 1
         const val FISHES = 2
@@ -37,7 +37,8 @@ class MainActivity : AppCompatActivity() {
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
-        val toggle = ActionBarDrawerToggle(this,drawerLayout,toolbar,
+        val toggle = ActionBarDrawerToggle(
+            this, drawerLayout, toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
@@ -47,11 +48,11 @@ class MainActivity : AppCompatActivity() {
         val bundle = Bundle()
         bundle.putInt(TYPE_ID, INVERTEBRATES)
         fragment.arguments = bundle
-        supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer,fragment).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit()
         navView.setNavigationItemSelectedListener {
             val mFragment = AnimalFragment()
             val mBundle = Bundle()
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.nav_invertebrates -> {
                     mBundle.putInt(TYPE_ID, INVERTEBRATES)
                     mFragment.arguments = mBundle
@@ -72,9 +73,12 @@ class MainActivity : AppCompatActivity() {
                     mBundle.putInt(TYPE_ID, MAMMALS)
                     mFragment.arguments = mBundle
                 }
-                else -> {return@setNavigationItemSelectedListener false}
+                else -> {
+                    return@setNavigationItemSelectedListener false
+                }
             }
-            supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer,mFragment).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, mFragment)
+                .commit()
             drawerLayout.closeDrawer(GravityCompat.START)
             return@setNavigationItemSelectedListener true
         }
