@@ -19,5 +19,8 @@
         <item
             android:id="@+id/nav_animals"
             android:title="@string/menu_animals" />
+        <item
+            android:id="@+id/nav_favorite"
+            android:title="Favorite"/>
     </group>
 </menu>
