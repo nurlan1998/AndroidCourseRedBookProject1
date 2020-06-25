@@ -50,7 +50,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_detail,menu)
+        menuInflater.inflate(R.menu.menu_detail, menu)
         menuItem = menu?.findItem(R.id.item_bookmark)
         setFavoriteIcon()
         return true
@@ -63,16 +63,18 @@ class DetailActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-    private fun setFavorite(){
-        if(currentAnimal.isFavorite == null) currentAnimal.isFavorite = 1
+
+    private fun setFavorite() {
+        if (currentAnimal.isFavorite == null) currentAnimal.isFavorite = 1
         else currentAnimal.isFavorite = 1 - currentAnimal.isFavorite!!
         setFavoriteIcon()
         dao.updateAnimal(currentAnimal)
     }
-    private fun setFavoriteIcon(){
-        if(currentAnimal.isFavorite == 1){
+
+    private fun setFavoriteIcon() {
+        if (currentAnimal.isFavorite == 1) {
             menuItem?.setIcon(R.drawable.ic_bookmark_black_24dp)
-        }else{
+        } else {
             menuItem?.setIcon(R.drawable.ic_bookmark_border_black_24dp)
         }
     }

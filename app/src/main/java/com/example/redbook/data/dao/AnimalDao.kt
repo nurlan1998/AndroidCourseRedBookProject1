@@ -14,10 +14,10 @@ interface AnimalDao {
     fun getAnimalById(id: Int): Animal
 
     @Query("Select * From book Where type=:type and nameEng like:word")
-    fun searchAnimalByName(type: Int, word: String) : List<Animal>
+    fun searchAnimalByName(type: Int, word: String): List<Animal>
 
     @Query("Select * From book Where isFavorite=1")
-    fun getFavorite() : List<Animal>
+    fun getFavorite(): List<Animal>
 
     @Update
     fun updateAnimal(animal: Animal)
