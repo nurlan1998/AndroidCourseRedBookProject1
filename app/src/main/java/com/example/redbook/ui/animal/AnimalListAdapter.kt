@@ -9,7 +9,7 @@ import com.example.redbook.R
 import com.example.redbook.data.model.Animal
 import kotlinx.android.synthetic.main.animal_item.view.*
 
-class AnimalListAdapter(private val listener: AnimalItemClickListener) :
+class AnimalListAdapter :
     RecyclerView.Adapter<AnimalListAdapter.AnimalListViewHolder>() {
 
     var models: List<Animal> = listOf()
@@ -17,6 +17,14 @@ class AnimalListAdapter(private val listener: AnimalItemClickListener) :
             field = value
             notifyDataSetChanged()
         }
+
+    var onItemClick: (animalId: Int) -> Unit = {animalId ->
+        println("onItemClick ele realizatsiya qilinbadi")
+    }
+
+    fun setOnItemClickListener(a: (animalId: Int) -> Unit){
+        this.onItemClick = a
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimalListViewHolder {
         var view = LayoutInflater.from(parent.context).inflate(R.layout.animal_item, parent, false)
@@ -48,7 +56,7 @@ class AnimalListAdapter(private val listener: AnimalItemClickListener) :
                 .into(itemView.ivAnimal)
 
             itemView.setOnClickListener {
-                listener.onAnimalItemClick(animal.id)
+                onItemClick.invoke(animal.id)
             }
         }
     }
