@@ -12,7 +12,7 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.example.redbook.R
 import com.example.redbook.ui.animal.AnimalFragment
-import com.example.redbook.ui.animal.favorite.FavoriteFragment
+import com.example.redbook.ui.favorite.FavoriteFragment
 
 class MainActivity : AppCompatActivity() {
 

@@ -12,7 +12,7 @@ import com.example.redbook.data.model.Animal
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.animal_item.view.*
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(), DetailView {
     companion object {
         const val ANIMAL_ID = "animalId"
     }
@@ -21,6 +21,7 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var dao: AnimalDao
     private lateinit var currentAnimal: Animal
     private var menuItem: MenuItem? = null
+    private lateinit var presenter: DetailPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,17 +32,9 @@ class DetailActivity : AppCompatActivity() {
         actionBar?.title = "Detail"
 
         dao = RedBookDatabase.getInstance(this).data()
+        presenter = DetailPresenter(dao,this)
         animalId = intent.getIntExtra(ANIMAL_ID, 0)
-        currentAnimal = dao.getAnimalById(animalId)
-
-        tvStatusContent.text = currentAnimal.status
-        tvHabitatContent.text = currentAnimal.habitat
-        tvPropagationContent.text = currentAnimal.propagation
-        tvQuantityContent.text = currentAnimal.quantity
-        tvLifeStyleContent.text = currentAnimal.lifestyle
-        tvLimitingFactorsContent.text = currentAnimal.limitingFactors
-        tvBreedingContent.text = currentAnimal.breeding
-        tvSecurityContent.text = currentAnimal.security
+        presenter.getAnimalById(animalId)
 
         Glide
             .with(this)
@@ -49,8 +42,20 @@ class DetailActivity : AppCompatActivity() {
             .into(ivDetail)
     }
 
+    override fun setDetailInfo(animal: Animal) {
+        currentAnimal = animal
+        tvStatusContent.text = animal.status
+        tvHabitatContent.text = animal.habitat
+        tvPropagationContent.text = animal.propagation
+        tvQuantityContent.text = animal.quantity
+        tvLifeStyleContent.text = animal.lifestyle
+        tvLimitingFactorsContent.text = animal.limitingFactors
+        tvBreedingContent.text = animal.breeding
+        tvSecurityContent.text = animal.security
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_detail,menu)
+        menuInflater.inflate(R.menu.menu_detail, menu)
         menuItem = menu?.findItem(R.id.item_bookmark)
         setFavoriteIcon()
         return true
@@ -63,16 +68,18 @@ class DetailActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-    private fun setFavorite(){
-        if(currentAnimal.isFavorite == null) currentAnimal.isFavorite = 1
+
+    private fun setFavorite() {
+        if (currentAnimal.isFavorite == null) currentAnimal.isFavorite = 1
         else currentAnimal.isFavorite = 1 - currentAnimal.isFavorite!!
         setFavoriteIcon()
-        dao.updateAnimal(currentAnimal)
+        presenter.updateAnimal(currentAnimal)
     }
-    private fun setFavoriteIcon(){
-        if(currentAnimal.isFavorite == 1){
+
+    private fun setFavoriteIcon() {
+        if (currentAnimal.isFavorite == 1) {
             menuItem?.setIcon(R.drawable.ic_bookmark_black_24dp)
-        }else{
+        } else {
             menuItem?.setIcon(R.drawable.ic_bookmark_border_black_24dp)
         }
     }
