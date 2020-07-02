@@ -23,7 +23,7 @@ class AnimalFragment : Fragment(R.layout.fragment_animal) {
         super.onViewCreated(view, savedInstanceState)
         adapter.setOnItemClickListener {
             var mIntent = Intent(requireActivity(), DetailActivity::class.java)
-            mIntent.putExtra(DetailActivity.ANIMAL_ID, id)
+            mIntent.putExtra(DetailActivity.ANIMAL_ID, it)
             startActivity(mIntent)
         }
         recyclerView.adapter = adapter
@@ -33,6 +33,7 @@ class AnimalFragment : Fragment(R.layout.fragment_animal) {
         presenter.setFunctionBody {
             adapter.models = it
         }
+        presenter.getAllAnimals(type)
         etSearch.addTextChangedListener {
             val result: List<Animal> = dao.searchAnimalByName(type, "${it.toString()}%")
             adapter.models = result
